@@ -8,10 +8,10 @@ export type TODO_LIST_TYPE = {
 };
 
 export type TodoListProps = {
-    item: TODO_LIST_TYPE;
-    index: number;
-    updatingTodo: boolean;
-    updateTodo: (id: TODO_LIST_TYPE) => void;
-    deleteTodo: (id: string) => void;
-    markTodoAsCompleted: (id: TODO_LIST_TYPE) => void;
-}
+  item: TODO_LIST_TYPE;
+  index: number;
+  startUpdatingTodo: (item: TODO_LIST_TYPE) => void;
+  updatingTodo: boolean;
+  deleteTodo: (item: TODO_LIST_TYPE) => void;
+  markTodoAsCompleted: (item: TODO_LIST_TYPE) => void;
+};

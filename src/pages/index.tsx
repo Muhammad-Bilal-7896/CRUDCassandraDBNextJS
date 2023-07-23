@@ -4,18 +4,41 @@ import Image from "next/image";
 import axios from 'axios';
 import { v4 as uuidv4 } from 'uuid';
 
-import { Button, CircularProgress } from "@mui/material";
+import { Button, CircularProgress, TextField } from "@mui/material";
+import Radio from '@mui/material/Radio';
+import RadioGroup from '@mui/material/RadioGroup';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import FormControl from '@mui/material/FormControl';
+import FormLabel from '@mui/material/FormLabel';
 
 // Importing Components
 import TodoList from "@/components/TodoList";
+import SnackBar from "@/components/SnackBar";
 import { TODO_LIST_TYPE } from "@/components/types";
 
 const Home = () => {
+
+  ///////////////////////////////// Snackbar State /////////////////////////////////
+  const [snackBarHandler, setSnackBarHandler] = useState({
+    open: false,
+    message: "",
+    severity: "success",
+  });
+  ///////////////////////////////// Snackbar State /////////////////////////////////
 
   const [loading, setLoading] = useState<boolean>(true);
 
   // To store the all todo items from the database. It is an array dear learners.
   const [todosList, setTodosList] = useState<any>([]);
+
+  // Todo Values
+  const [todoTitle, setTodoTitle] = useState<string>("");
+  const [todoDescription, setTodoDescription] = useState<string>("");
+  const [todoCompleted, setTodoCompleted] = useState<string>('incomplete');
+
+  const handleChangeTodoStatus = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setTodoCompleted((event.target as HTMLInputElement).value);
+  };
 
   // To check while updating the todo item so that you are able to show the update button
   const [updatingTodo, setUpdatingTodo] = useState<boolean>(false);
@@ -37,7 +60,13 @@ const Home = () => {
       .then(response => {
         // alert("GET Response response.data.data ==> ")
         console.log("GET Response response.data.data ==> ", response);
-        setTodosList(response.data.response.data);
+
+        let todo_list = response.data.response.data;
+
+        //reverse the todo list
+        todo_list.reverse();
+
+        setTodosList(todo_list);
         setLoading(false);
       })
       .catch(error => {
@@ -49,25 +78,29 @@ const Home = () => {
   // Function to update a todo item by id
   const addTodo = async () => {
     // Prompt the user to enter the updated todo item details
-    let title = prompt("Enter todo title:");
-    let description = prompt("Enter todo description:");
-    let completed = prompt("Enter todo completed status:");
+    // let title = prompt("Enter todo title:");
+    // let description = prompt("Enter todo description:");
+    // let completed = prompt("Enter todo completed status:");
     let date = new Date().toLocaleDateString();
 
     // If the user clicks the cancel button, then return early from this function
-    if (!title || !description || !completed || !date) {
-      alert("Please enter all items to add todo!");
+    if (todoTitle === "" || todoDescription === "" || date === null) {
+      setSnackBarHandler({
+        open: true,
+        message: "Please enter all the todo item details to add todo!",
+        severity: "error",
+      });
       return;
     }
 
     // Check if the user entered all the updated todo item details
-    if (title !== null && description !== null && completed !== null && date !== null) {
+    if (todoTitle !== "" && todoDescription !== "" && date !== null) {
       const todoData = {
         "posted_by": FILTERED_BY,
         "date": date,
-        "title": title,
-        "description": description,
-        "completed": completed === "true" ? true : false,
+        "title": todoTitle,
+        "description": todoDescription,
+        "completed": todoCompleted === "completed" ? true : false,
         "id": uuidv4()
       };
 
@@ -76,15 +109,33 @@ const Home = () => {
       try {
         // Make a POST request to add the todo item
         const response = await axios.post(`/api/${TABLE_NAME}`, todoData);
-        setTodosList([...todosList, todoData]);
-        alert("Todo 🚀 item added successfully!");
+
+        // add the todo item to the todo list at the top
+        setTodosList([todoData, ...todosList]);
+
+        setSnackBarHandler({
+          open: true,
+          message: "Todo 🚀 item added successfully!",
+          severity: "success",
+        });
+
         console.log("Adding Todo ⏳ Response:", response);
       } catch (error) {
-        alert("Error ⚠️ adding todo item!");
-        console.error(error);
+        setSnackBarHandler({
+          open: true,
+          message: "Error ⚠️ adding todo item!",
+          severity: "error",
+        });
+
+        console.error("Error ⚠️ adding todo item! ", error);
       }
     } else {
-      alert("Please enter all the todo item details to add todo! Thanks.");
+      setSnackBarHandler({
+        open: true,
+        message: "Please enter all the todo item details to add todo!",
+        severity: "error",
+      });
+
       return;
     }
   };
@@ -224,11 +275,43 @@ const Home = () => {
       </div>
       {(!loading) ? (
         <>
-          <div className="flex justify-center item-center">
+          <div className="flex flex-col justify-center item-center">
+            <div>
+              <TextField
+                variant='standard'
+                label='Todo Title'
+                placeholder='Enter Todo title'
+                className="w-full"
+                value={todoTitle}
+                onChange={(e) => setTodoTitle(e.target.value)}
+              />
+              <TextField
+                variant='standard'
+                label='Todo Description'
+                placeholder='Enter Todo description'
+                className="w-full mt-2"
+                multiline
+                rows={4}
+                value={todoDescription}
+                onChange={(e) => setTodoDescription(e.target.value)}
+              />
+              <FormControl className="mt-6">
+                <FormLabel id="demo-controlled-radio-buttons-group">Todo Status</FormLabel>
+                <RadioGroup
+                  aria-labelledby="demo-controlled-radio-buttons-group"
+                  name="controlled-radio-buttons-group"
+                  value={todoCompleted}
+                  onChange={handleChangeTodoStatus}
+                >
+                  <FormControlLabel value="completed" control={<Radio />} label="Completed" />
+                  <FormControlLabel value="incomplete" control={<Radio />} label="InComplete" />
+                </RadioGroup>
+              </FormControl>
+            </div>
             <Button
               variant='contained'
               color={"primary"}
-              className="bg-blue-700"
+              className="bg-blue-700 mt-3 mb-4"
               onClick={addTodo}
               // So disable when updating is happening
               disabled={updatingTodo}
@@ -273,6 +356,18 @@ const Home = () => {
           <CircularProgress />
         </div>
       )}
+
+      <SnackBar
+        isOpen={snackBarHandler.open}
+        message={snackBarHandler.message}
+        severity={snackBarHandler.severity}
+        setIsOpen={
+          // Only pass the setIsOpen function to the SnackBar component
+          // and not the whole state object
+          (isOpen: boolean) =>
+            setSnackBarHandler({ ...snackBarHandler, open: isOpen })
+        }
+      />
     </div>
   )
 }

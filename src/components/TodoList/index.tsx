@@ -1,5 +1,5 @@
 import { Button } from "@mui/material";
-import { TodoListProps } from "./types";
+import { TodoListProps } from "../types";
 
 const TodoList = (props: TodoListProps) => {
     const { item, index, updateTodo, deleteTodo, updatingTodo, markTodoAsCompleted } = props;

@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 
 import Image from "next/image";
 import axios from "axios";
@@ -18,6 +18,8 @@ import { TODO_LIST_TYPE } from "@/components/types";
 import { todo } from "node:test";
 
 const Home = () => {
+  const ref: any = useRef(null);
+
   ///////////////////////////////// Snackbar State /////////////////////////////////
   const [snackBarHandler, setSnackBarHandler] = useState({
     open: false,
@@ -96,7 +98,7 @@ const Home = () => {
     // let title = prompt("Enter todo title:");
     // let description = prompt("Enter todo description:");
     // let completed = prompt("Enter todo completed status:");
-    let date = new Date().toLocaleDateString();
+    let date = new Date().toUTCString();
 
     // If the user clicks the cancel button, then return early from this function
     if (todoTitle === "" || todoDescription === "" || date === null) {
@@ -162,17 +164,20 @@ const Home = () => {
 
   const startUpdatingTodo = (item: TODO_LIST_TYPE) => {
     // Prompt the user to enter the updated todo item details
+    ref.current?.scrollIntoView({ behavior: "smooth" });
 
-    // Set the todo item details in the state
-    setTodoTitle(item.title);
-    setTodoDescription(item.description);
-    setTodoCompleted(item.completed === true ? "incomplete" : "completed");
+    setTimeout(() => {
+      // Set the todo item details in the state
+      setTodoTitle(item.title);
+      setTodoDescription(item.description);
+      setTodoCompleted(item.completed === true ? "incomplete" : "completed");
 
-    // Set the current updating todo item in the state
-    setCurrentUpdatingTodo(item);
+      // Set the current updating todo item in the state
+      setCurrentUpdatingTodo(item);
 
-    // Set the updating todo state to true
-    setUpdatingTodo(true);
+      // Set the updating todo state to true
+      setUpdatingTodo(true);
+    }, 1000);
   };
 
   // Function to update a todo item by id
@@ -187,7 +192,7 @@ const Home = () => {
 
       let updateAPIUrl = `/api/${TABLE_NAME}/${FILTERED_BY}/${currentUpdatingTodo.date}/${currentUpdatingTodo.id}`;
 
-      alert("updateAPIUrl ==> " + updateAPIUrl);
+      // alert("updateAPIUrl ==> " + updateAPIUrl);
 
       try {
         setLoading(true);
@@ -379,7 +384,7 @@ const Home = () => {
       </div>
       {!loading ? (
         <>
-          <div className="flex flex-col justify-center item-center">
+          <div ref={ref} className="flex flex-col justify-center item-center">
             <div>
               <TextField
                 variant="standard"
@@ -436,30 +441,33 @@ const Home = () => {
               {(updatingTodo && "Update Todo 📅") || "Add Todo 📅"}
             </Button>
           </div>
-          {todosList.map((item: any, index: number) => (
-            <div key={index}>
-              {todosList.length === 0 ? (
-                <div className="flex flex-col justify-center items-center">
-                  <h3 className="text-2xl text-center">No Todos 📅 found!</h3>
-                </div>
-              ) : (
-                <div>
-                  <TodoList
-                    item={item}
-                    index={index}
-                    // To load the todo item details in the input fields
-                    startUpdatingTodo={startUpdatingTodo}
-                    // Checking while updating the todo item
-                    updatingTodo={updatingTodo}
-                    // Function to delete a todo item by id
-                    deleteTodo={deleteTodo}
-                    // Mark todo completed
-                    markTodoAsCompleted={markTodoAsCompleted}
-                  />
-                </div>
-              )}
+
+          {todosList.length === 0 ? (
+            <div className="flex flex-col justify-center items-center mt-3 mb-6">
+              <h3 className="text-2xl text-center">No Todos 📅 found!</h3>
             </div>
-          ))}
+          ) : (
+            <>
+              {todosList.map((item: any, index: number) => (
+                <div key={index}>
+                  <div>
+                    <TodoList
+                      item={item}
+                      index={index}
+                      // To load the todo item details in the input fields
+                      startUpdatingTodo={startUpdatingTodo}
+                      // Checking while updating the todo item
+                      updatingTodo={updatingTodo}
+                      // Function to delete a todo item by id
+                      deleteTodo={deleteTodo}
+                      // Mark todo completed
+                      markTodoAsCompleted={markTodoAsCompleted}
+                    />
+                  </div>
+                </div>
+              ))}
+            </>
+          )}
         </>
       ) : (
         <div className="flex flex-col justify-center items-center">

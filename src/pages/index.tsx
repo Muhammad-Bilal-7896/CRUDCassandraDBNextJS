@@ -433,7 +433,7 @@ const Home = () => {
               // className="bg-blue-700 mt-3 mb-4"
               className={`${
                 updatingTodo ? "bg-green-700" : "bg-blue-700"
-              } text-1xl mt-3 mb-4`}
+              } sm:text-1xl text-[15px] lowercase sm:normal font-thin sm:font-normal mt-3 mb-4`}
               // Ok So Learners here I have used the ternary operator to trigger updateTodo function
               // when updatingTodo is true and addTodo function when updatingTodo is false
               onClick={updatingTodo ? updateTodo : addTodo}

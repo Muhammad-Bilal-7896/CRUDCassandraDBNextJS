@@ -39,7 +39,7 @@ const TodoList = (props: TodoListProps) => {
           color={updatingTodo ? "success" : "primary"}
           className={`${
             updatingTodo ? "bg-green-700" : "bg-blue-700"
-          } text-1xl`}
+          } sm:text-1xl text-[15px] lowercase sm:normal-case font-thin sm:font-normal`}
           onClick={() => startUpdatingTodo(item)}
           disabled={updatingTodo}
         >
@@ -48,7 +48,7 @@ const TodoList = (props: TodoListProps) => {
         <Button
           variant="contained"
           color="error"
-          className="bg-red-700 text-1xl ml-2"
+          className="bg-red-700 sm:text-1xl text-[15px] lowercase sm:normal-case font-thin sm:font-normal ml-2"
           onClick={() => deleteTodo(item)}
           disabled={updatingTodo}
         >
@@ -59,7 +59,7 @@ const TodoList = (props: TodoListProps) => {
           color={!item.completed ? "success" : "warning"}
           className={`${
             !item.completed ? "bg-green-500" : "bg-orange-500"
-          } text-1xl ml-2`}
+          } sm:text-1xl text-[15px] lowercase sm:normal-case font-thin sm:font-normal ml-2`}
           onClick={() => markTodoAsCompleted(item)}
           disabled={updatingTodo}
         >

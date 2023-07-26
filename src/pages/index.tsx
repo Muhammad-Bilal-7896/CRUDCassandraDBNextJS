@@ -363,7 +363,10 @@ const Home = () => {
 
   return (
     <div className="container ml-auto mr-auto">
-      <h1 className="text-4xl text-center mt-4 font-bold font-sans text-blue-500">
+      <h1
+        ref={ref}
+        className="text-4xl text-center mt-4 font-bold font-sans text-blue-500"
+      >
         Cassandra DB Todo App 🚀
       </h1>
       <div className="flex justify-center item-center">
@@ -384,7 +387,7 @@ const Home = () => {
       </div>
       {!loading ? (
         <>
-          <div ref={ref} className="flex flex-col justify-center item-center">
+          <div className="flex flex-col justify-center item-center">
             <div>
               <TextField
                 variant="standard"

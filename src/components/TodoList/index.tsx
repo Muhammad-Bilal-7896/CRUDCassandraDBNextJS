@@ -1,3 +1,5 @@
+// Path : src/components/TodoList/index.tsx
+
 import { Button } from "@mui/material";
 import { TodoListProps } from "../types";
 
@@ -11,7 +13,7 @@ const TodoList = (props: TodoListProps) => {
     markTodoAsCompleted,
   } = props;
   return (
-    <div className="border shadow-md opacity-80 border-x-blue-900 rounded-[12px] p-2 m-4">
+    <div className="border shadow-lg opacity-80 border-x-blue-200 rounded-[12px] p-2 m-4">
       <h1 className="text-3xl text-center">
         {index}-{" "}
         {item.completed ? (

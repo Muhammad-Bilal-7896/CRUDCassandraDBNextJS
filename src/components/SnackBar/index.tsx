@@ -1,8 +1,10 @@
-import * as React from "react";
-import Stack from "@mui/material/Stack";
-import Snackbar from "@mui/material/Snackbar";
+// Path : src/components/SnackBar/index.tsx
+
 import MuiAlert, { AlertProps } from "@mui/material/Alert";
 import Slide, { SlideProps } from "@mui/material/Slide";
+import Snackbar from "@mui/material/Snackbar";
+import Stack from "@mui/material/Stack";
+import * as React from "react";
 
 const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
   props,

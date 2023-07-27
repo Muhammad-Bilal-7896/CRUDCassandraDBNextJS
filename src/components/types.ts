@@ -1,10 +1,12 @@
+// Path : src/components/types.ts
+
 export type TODO_LIST_TYPE = {
-    title: string;
-    description: string;
-    completed: boolean;
-    id: string;
-    date: string;
-    postedBy: string;
+  title: string;
+  description: string;
+  completed: boolean;
+  id: string;
+  date: string;
+  postedBy: string;
 };
 
 export type TodoListProps = {

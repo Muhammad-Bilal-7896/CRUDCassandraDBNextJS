@@ -1,32 +1,34 @@
-import { useState, useEffect, useRef } from "react";
+// Path : src/pages/index.tsx
 
-import Image from "next/image";
+import { useEffect, useRef, useState } from "react";
+
 import axios from "axios";
+import Image from "next/image";
 import { v4 as uuidv4 } from "uuid";
 
 import { Button, CircularProgress, TextField } from "@mui/material";
+import FormControl from "@mui/material/FormControl";
+import FormControlLabel from "@mui/material/FormControlLabel";
+import FormLabel from "@mui/material/FormLabel";
 import Radio from "@mui/material/Radio";
 import RadioGroup from "@mui/material/RadioGroup";
-import FormControlLabel from "@mui/material/FormControlLabel";
-import FormControl from "@mui/material/FormControl";
-import FormLabel from "@mui/material/FormLabel";
 
 // Importing Components
-import TodoList from "@/components/TodoList";
+import Footer from "@/components/Footer";
 import SnackBar from "@/components/SnackBar";
+import TodoList from "@/components/TodoList";
 import { TODO_LIST_TYPE } from "@/components/types";
-import { todo } from "node:test";
 
 const Home = () => {
   const ref: any = useRef(null);
 
-  ///////////////////////////////// Snackbar State /////////////////////////////////
+  // Snack Bar Alert
   const [snackBarHandler, setSnackBarHandler] = useState({
     open: false,
     message: "",
     severity: "success",
   });
-  ///////////////////////////////// Snackbar State /////////////////////////////////
+  //
 
   const [loading, setLoading] = useState<boolean>(true);
 
@@ -62,6 +64,7 @@ const Home = () => {
 
   // The table name which you have created in the Astra DB database
   const TABLE_NAME: string = "todos";
+
   // The partition key of the table from which you will filter/fetch the todo items
   const FILTERED_BY: string = "Muhammad-Bilal";
 
@@ -94,10 +97,6 @@ const Home = () => {
 
   // Function to update a todo item by id
   const addTodo = async () => {
-    // Prompt the user to enter the updated todo item details
-    // let title = prompt("Enter todo title:");
-    // let description = prompt("Enter todo description:");
-    // let completed = prompt("Enter todo completed status:");
     let date = new Date().toUTCString();
 
     // If the user clicks the cancel button, then return early from this function
@@ -362,133 +361,135 @@ const Home = () => {
   };
 
   return (
-    <div className="container ml-auto mr-auto">
-      <h1
-        ref={ref}
-        className="text-4xl text-center mt-4 font-bold font-sans text-blue-500"
-      >
-        Cassandra DB Todo App 🚀
-      </h1>
-      <div className="flex justify-center item-center">
-        <Image
-          src="/logo.png"
-          alt="Picture of the author"
-          title="Picture of the author"
-          width={500}
-          height={300}
-          style={{
-            height: 200,
-            width: 400,
-            borderRadius: 10,
-            marginTop: 20,
-            marginBottom: 20,
-          }}
-        />
-      </div>
-      {!loading ? (
-        <>
-          <div className="flex flex-col justify-center item-center">
-            <div>
-              <TextField
-                variant="standard"
-                label="Todo Title"
-                placeholder="Enter Todo title"
-                className="w-full"
-                value={todoTitle}
-                onChange={(e) => setTodoTitle(e.target.value)}
-              />
-              <TextField
-                variant="standard"
-                label="Todo Description"
-                placeholder="Enter Todo description"
-                className="w-full mt-2"
-                multiline
-                rows={4}
-                value={todoDescription}
-                onChange={(e) => setTodoDescription(e.target.value)}
-              />
-              <FormControl className="mt-6">
-                <FormLabel id="demo-controlled-radio-buttons-group">
-                  Todo Status
-                </FormLabel>
-                <RadioGroup
-                  aria-labelledby="demo-controlled-radio-buttons-group"
-                  name="controlled-radio-buttons-group"
-                  value={todoCompleted}
-                  onChange={handleChangeTodoStatus}
-                >
-                  <FormControlLabel
-                    value="completed"
-                    control={<Radio />}
-                    label="Completed"
-                  />
-                  <FormControlLabel
-                    value="incomplete"
-                    control={<Radio />}
-                    label="InComplete"
-                  />
-                </RadioGroup>
-              </FormControl>
-            </div>
-            <Button
-              variant="contained"
-              color={(updatingTodo && "success") || "primary"}
-              // className="bg-blue-700 mt-3 mb-4"
-              className={`${
-                updatingTodo ? "bg-green-700" : "bg-blue-700"
-              } sm:text-1xl text-[15px] lowercase sm:normal font-thin sm:font-normal mt-3 mb-4`}
-              // Ok So Learners here I have used the ternary operator to trigger updateTodo function
-              // when updatingTodo is true and addTodo function when updatingTodo is false
-              onClick={updatingTodo ? updateTodo : addTodo}
-            >
-              {(updatingTodo && "Update Todo 📅") || "Add Todo 📅"}
-            </Button>
-          </div>
-
-          {todosList.length === 0 ? (
-            <div className="flex flex-col justify-center items-center mt-3 mb-6">
-              <h3 className="text-2xl text-center">No Todos 📅 found!</h3>
-            </div>
-          ) : (
-            <>
-              {todosList.map((item: any, index: number) => (
-                <div key={index}>
-                  <div>
-                    <TodoList
-                      item={item}
-                      index={index}
-                      // To load the todo item details in the input fields
-                      startUpdatingTodo={startUpdatingTodo}
-                      // Checking while updating the todo item
-                      updatingTodo={updatingTodo}
-                      // Function to delete a todo item by id
-                      deleteTodo={deleteTodo}
-                      // Mark todo completed
-                      markTodoAsCompleted={markTodoAsCompleted}
-                    />
-                  </div>
-                </div>
-              ))}
-            </>
-          )}
-        </>
-      ) : (
-        <div className="flex flex-col justify-center items-center">
-          <h3 className="text-2xl text-center">Loading Todos 📅 ...</h3>
-          <br />
-          <CircularProgress />
+    <div>
+      <div className="container ml-auto mr-auto">
+        <h1
+          ref={ref}
+          className="text-4xl text-center mt-4 font-bold font-sans text-blue-500"
+        >
+          Cassandra DB Todo App 🚀 Made by{" "}
+          <a href="https://github.com/Muhammad-Bilal-7896/">Muhammad Bilal</a>
+        </h1>
+        <div className="flex justify-center item-center">
+          <Image
+            src="/logo.png"
+            alt="Picture of the author"
+            title="Picture of the author"
+            width={500}
+            height={300}
+            style={{
+              height: 200,
+              width: 400,
+              borderRadius: 10,
+              marginTop: 20,
+              marginBottom: 20,
+            }}
+          />
         </div>
-      )}
+        {!loading ? (
+          <>
+            <div className="flex flex-col justify-center item-center">
+              <div>
+                <TextField
+                  variant="standard"
+                  label="Todo Title"
+                  placeholder="Enter Todo title"
+                  className="w-full"
+                  value={todoTitle}
+                  onChange={(e) => setTodoTitle(e.target.value)}
+                />
+                <TextField
+                  variant="standard"
+                  label="Todo Description"
+                  placeholder="Enter Todo description"
+                  className="w-full mt-2"
+                  multiline
+                  rows={4}
+                  value={todoDescription}
+                  onChange={(e) => setTodoDescription(e.target.value)}
+                />
+                <FormControl className="mt-6">
+                  <FormLabel id="demo-controlled-radio-buttons-group">
+                    Todo Status
+                  </FormLabel>
+                  <RadioGroup
+                    aria-labelledby="demo-controlled-radio-buttons-group"
+                    name="controlled-radio-buttons-group"
+                    value={todoCompleted}
+                    onChange={handleChangeTodoStatus}
+                  >
+                    <FormControlLabel
+                      value="completed"
+                      control={<Radio />}
+                      label="Completed"
+                    />
+                    <FormControlLabel
+                      value="incomplete"
+                      control={<Radio />}
+                      label="InComplete"
+                    />
+                  </RadioGroup>
+                </FormControl>
+              </div>
+              <Button
+                variant="contained"
+                color={(updatingTodo && "success") || "primary"}
+                // className="bg-blue-700 mt-3 mb-4"
+                className={`${
+                  updatingTodo ? "bg-green-700" : "bg-blue-700"
+                } sm:text-1xl text-[15px] normal-case sm:normal font-thin sm:font-normal mt-3 mb-4`}
+                // Ok So Learners here I have used the ternary operator to trigger updateTodo function
+                // when updatingTodo is true and addTodo function when updatingTodo is false
+                onClick={updatingTodo ? updateTodo : addTodo}
+              >
+                {(updatingTodo && "Update Todo 📅") || "Add Todo 📅"}
+              </Button>
+            </div>
+
+            {todosList.length === 0 ? (
+              <div className="flex flex-col justify-center items-center mt-3 mb-6">
+                <h3 className="text-2xl text-center">No Todos 📅 found!</h3>
+              </div>
+            ) : (
+              <>
+                {todosList.map((item: any, index: number) => (
+                  <div key={index}>
+                    <div>
+                      <TodoList
+                        item={item}
+                        index={index}
+                        // To load the todo item details in the input fields
+                        startUpdatingTodo={startUpdatingTodo}
+                        // Checking while updating the todo item
+                        updatingTodo={updatingTodo}
+                        // Function to delete a todo item by id
+                        deleteTodo={deleteTodo}
+                        // Mark todo completed
+                        markTodoAsCompleted={markTodoAsCompleted}
+                      />
+                    </div>
+                  </div>
+                ))}
+              </>
+            )}
+          </>
+        ) : (
+          <div className="flex flex-col justify-center items-center">
+            <h3 className="text-2xl text-center">Loading Todos 📅 ...</h3>
+            <br />
+            <CircularProgress />
+          </div>
+        )}
+      </div>
+
+      <Footer />
 
       <SnackBar
         isOpen={snackBarHandler.open}
         message={snackBarHandler.message}
         severity={snackBarHandler.severity}
-        setIsOpen={
-          // Only pass the setIsOpen function to the SnackBar component
-          // and not the whole state object
-          (isOpen: boolean) =>
-            setSnackBarHandler({ ...snackBarHandler, open: isOpen })
+        setIsOpen={(isOpen: boolean) =>
+          setSnackBarHandler({ ...snackBarHandler, open: isOpen })
         }
       />
     </div>

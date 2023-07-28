@@ -370,6 +370,14 @@ const Home = () => {
           Cassandra DB Todo App 🚀 Made by{" "}
           <a href="https://github.com/Muhammad-Bilal-7896/">Muhammad Bilal</a>
         </h1>
+        <p className="text-center mt-4 text-2xl">
+          <a
+            className="text-gray-600 font-light"
+            href="https://github.com/Muhammad-Bilal-7896/"
+          >
+            Want to develop similar application, follow this <span className="text-blue-500 underline">FullStack Cassandra + Next JS CRUD</span>
+          </a>
+        </p>
         <div className="flex justify-center item-center">
           <Image
             src="/logo.png"

@@ -395,12 +395,15 @@ const Home = () => {
           className="text-4xl text-center mt-4 font-bold font-sans text-blue-500"
         >
           Cassandra DB Todo App 🚀 Made by{" "}
-          <a href="https://github.com/Muhammad-Bilal-7896/">Muhammad Bilal</a>
+          <a href="https://github.com/Muhammad-Bilal-7896/" target="_blank">
+            Muhammad Bilal
+          </a>
         </h1>
         <p className="text-center mt-4 text-2xl">
           <a
             className="text-gray-600 font-light"
-            href="https://github.com/Muhammad-Bilal-7896/"
+            href="https://www.linkedin.com/pulse/how-perform-crud-operations-serverless-astra-db-next-build-bilal/"
+            target="_blank"
           >
             Want to develop similar application, follow this{" "}
             <span className="text-blue-500 underline">

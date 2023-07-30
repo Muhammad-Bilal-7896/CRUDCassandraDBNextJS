@@ -18,6 +18,7 @@ import Footer from "@/components/Footer";
 import SnackBar from "@/components/SnackBar";
 import TodoList from "@/components/TodoList";
 import { TODO_LIST_TYPE } from "@/components/types";
+import Head from "next/head";
 
 const Home = () => {
   const ref: any = useRef(null);
@@ -362,6 +363,32 @@ const Home = () => {
 
   return (
     <div>
+      <Head>
+        <title>Cassandra Db Todo App</title>
+        <meta
+          name="description"
+          content={`
+          A Todo app that will use Apache Cassandra to store the todos and addition, deletion and update of todos will be handled by the Apache Cassandra.
+          We will discuss the following in detail
+          Overview of Apache Cassandra 
+          Cassandra Data Modeling
+          Cassandra Db Structure
+          Creating a new serverless Astra Db Database and utilizing its API using NextJS that will perform CRUD(create,read,update,delete) operations utilizing Astra DB 
+          Build a front end using Next JS to utilize that API
+          At the end we will be ready with a full stack cassandra db todo app
+          I will do everything from scratch so that every begginer can understand and everything will be step by step.
+          <a
+            className="subscribeButton mt-2"
+            href="https://www.linkedin.com/build-relation/newsletter-follow?entityUrn=6945124839913320448"
+            target="_blank"
+          >
+            Subscribe on LinkedIn
+          </a>
+        `}
+        />
+        <meta name="author" content="Muhammmad-Bilal-7896" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      </Head>
       <div className="container ml-auto mr-auto">
         <h1
           ref={ref}
@@ -375,9 +402,22 @@ const Home = () => {
             className="text-gray-600 font-light"
             href="https://github.com/Muhammad-Bilal-7896/"
           >
-            Want to develop similar application, follow this <span className="text-blue-500 underline">FullStack Cassandra + Next JS CRUD</span>
+            Want to develop similar application, follow this{" "}
+            <span className="text-blue-500 underline">
+              FullStack Cassandra + Next JS CRUD
+            </span>
           </a>
         </p>
+        <br />
+        <div className="flex flex-row items-center justify-center text-center w-100">
+          <a
+            className="subscribeButton mt-2"
+            href="https://www.linkedin.com/build-relation/newsletter-follow?entityUrn=6945124839913320448"
+            target="_blank"
+          >
+            Subscribe on LinkedIn
+          </a>
+        </div>
         <div className="flex justify-center item-center">
           <Image
             src="/logo.png"

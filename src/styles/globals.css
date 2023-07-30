@@ -20,3 +20,19 @@ a {
 a:hover {
   color: rgb(120, 208, 155);
 }
+
+.subscribeButton {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 7px;
+  text-align: center;
+  outline: none;
+  text-decoration: none !important;
+  color: #ffffff !important;
+  width: 200px;
+  height: 32px;
+  border-radius: 16px;
+  background-color: #0a66c2;
+  font-family: "SF Pro Text", Helvetica, sans-serif;
+}
